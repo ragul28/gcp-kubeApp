@@ -14,7 +14,7 @@ node {
   sh("docker run ${imageTag} go test")
 
   stage 'Push image to registry'
-  withDockerRegistry(credentialsId: 'source:gcr:arimac-devops', url: 'https://gcr.io') {
+  withDockerRegistry(url: 'https://gcr.io/', credentialsId: 'gcr:arimac-devops'){
       sh("docker push ${imageTag}")
   }
   
