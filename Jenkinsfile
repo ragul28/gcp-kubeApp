@@ -24,7 +24,7 @@ node {
     // Roll out to canary environment
     case "canary":
         // Change deployed image in canary to the one we just built
-        //sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/canary/*.yaml")
+        sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/canary/*.yaml")
         sh("${kubepath}gcloud auth activate-service-account --key-file ${gcpauth}")
         sh("${kubepath}gcloud config set project arimac-devops")
         sh("${kubepath}gcloud info")
