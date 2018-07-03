@@ -4,7 +4,8 @@ node {
   def feSvcName = "${appName}-frontend"
   def imageTag = "gcr.io/${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
   def kubepath = '/home/ragul/drive/project/google-cloud-sdk/bin/'
-
+  def gcpauth = '/home/ragul/.config/gcloud/arimac-devops-70e35c8c2085.json'
+  
   checkout scm
 
   stage 'Build image'
@@ -24,7 +25,7 @@ node {
     case "canary":
         // Change deployed image in canary to the one we just built
         //sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/canary/*.yaml")
-        sh("${kubepath}gcloud auth login")
+        sh("${kubepath}gcloud auth activate-service-account --key-file ${gcpauth}")
         sh("${kubepath}gcloud config set project arimac-devops")
         sh("${kubepath}gcloud info")
         sh("${kubepath}gcloud container clusters get-credentials cluster-3 --zone us-central1-a --project arimac-devops")
