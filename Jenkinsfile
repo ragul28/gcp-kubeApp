@@ -23,7 +23,10 @@ node {
     // Roll out to canary environment
     case "canary":
         // Change deployed image in canary to the one we just built
-        sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/canary/*.yaml")
+        //sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/canary/*.yaml")
+        sh("${kubepath}kubectl get nodes")
+        sh("${kubepath}kubectl --namespace=production get pods")
+        sh("${kubepath}kubectl --namespace=production get service")
         sh("${kubepath}kubectl --namespace=production apply -f k8s/services/")
         sh("${kubepath}kubectl --namespace=production apply -f k8s/canary/")
         sh("echo http://`${kubepath}kubectl --namespace=production get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
