@@ -24,6 +24,7 @@ node {
     case "canary":
         // Change deployed image in canary to the one we just built
         //sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/canary/*.yaml")
+        sh("${kubepath}gcloud config set account ragulan@arimaclanka.com")
         sh("${kubepath}gcloud config set account arimac-devops")
         sh("${kubepath}gcloud info")
         sh("${kubepath}gcloud container clusters get-credentials cluster-3 --zone us-central1-a --project arimac-devops")
