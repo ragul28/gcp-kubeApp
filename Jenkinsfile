@@ -41,6 +41,12 @@ node {
     case "master":
         // Change deployed image in canary to the one we just built
         sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/production/*.yaml")
+        sh("${kubepath}gcloud auth activate-service-account --key-file ${gcpauth}")
+        sh("${kubepath}gcloud config set project arimac-devops")
+        sh("${kubepath}gcloud info")
+        sh("${kubepath}gcloud container clusters get-credentials cluster-3 --zone us-central1-a --project arimac-devops")
+        sh("${kubepath}kubectl get nodes")
+        sh("${kubepath}kubectl --namespace=production get pods")
         sh("${kubepath}kubectl --namespace=production apply -f k8s/services/")
         sh("${kubepath}kubectl --namespace=production apply -f k8s/production/")
         sh("echo http://`${kubepath}kubectl --namespace=production get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
