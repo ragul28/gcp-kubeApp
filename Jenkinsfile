@@ -4,7 +4,7 @@ node {
   def feSvcName = "${appName}-frontend"
   def imageTag = "gcr.io/${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
   def kubepath = '/home/ragul/drive/project/google-cloud-sdk/bin/'
-  def gcpauth = '/home/ragul/.config/gcloud/arimac-devops-70e35c8c2085.json'
+  def gcpauth = '/home/ragul/arimac-devops-70e35c8c2085.json'
   
   checkout scm
 
